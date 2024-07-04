@@ -1,0 +1,67 @@
+    <!DOCTYPE html>
+    <html lang="en">
+        <script>
+            let Timeout;
+            function populate(){
+                const e11= document.getElementById("e1").value;
+                const e22 =document.getElementById("e2").value;
+                if(e11!=NaN && e22!=NaN){
+               const element= document.getElementById("finalsum").innerHTML=parseInt(e11)+parseInt(e22);
+               //console.log(element);
+               }
+               else{
+                document.getElementById("finalsum").innerHTML="input value in both the strings";
+               }
+
+            };
+            function debounce(){
+                clearTimeout(Timeout)
+                Timeout = setTimeout(() => {
+                    populate2();
+                }, 1000);
+                
+               
+            }
+                async function  populate2(){
+                const e11= document.getElementById("e1").value;
+                const e22 =document.getElementById("e2").value;
+                const e33=document.getElementById("e3").value;
+                const response = await fetch("https://sum-server.100xdevs.com/interest?principal="+e11+"&rate="+e22+"&time="+e33); 
+                const ans = await response.text();
+                
+                const ans2= JSON.parse(ans);
+                //console.log(ans2.interest);
+               document.getElementById("finalsum").innerHTML=ans2.total+"<br> "+ans2.interest;      
+                
+             }
+                
+        </script>
+    
+     <style>
+       /*.container{
+            background-color: red;
+            padding: 20;
+            margin: 100;
+        }*/
+    </style> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+    <div  class="container">
+        <input  oninput="debounce()" id ="e1" placeholder="p" ><br></br>
+    </div>
+    <div class="container">
+        <input  oninput="debounce()" id="e2" placeholder="rate" >    <br> </br>
+    </div> 
+       
+    <div class="container">
+        <input  oninput="debounce()" id="e3" placeholder="time" >    <br> </br>
+    </div> 
+        <button onclick="populate2()" >submit</button><br></br>
+        <div id="finalsum"></div>
+        
+    </body>
+    </html>
